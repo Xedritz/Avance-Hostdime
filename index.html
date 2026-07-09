@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tablero de Avance · Migración de Infraestructura HostDime</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f1f5f9; color: #0f172a; padding: 28px 20px 48px;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 26px; }
+  header .kicker { color: #64748b; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+  header h1 { font-size: 30px; margin: 6px 0 4px; }
+  header .cliente { color: #475569; font-size: 15px; }
+
+  .kpis { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin: 22px 0 26px; }
+  @media (max-width: 760px) { .kpis { grid-template-columns: 1fr; } }
+  .card { background: #fff; border-radius: 18px; padding: 24px; box-shadow: 0 1px 3px rgba(15,23,42,.08); }
+
+  .anillo-card { display: flex; align-items: center; gap: 22px; }
+  .anillo {
+    width: 132px; height: 132px; border-radius: 50%; flex: none;
+    background: conic-gradient(#2563eb 180.0deg, #e2e8f0 0deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .anillo-inner {
+    width: 100px; height: 100px; background: #fff; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .anillo-inner .num { font-size: 34px; font-weight: 800; color: #2563eb; line-height: 1; }
+  .anillo-inner .lbl { font-size: 11px; color: #64748b; margin-top: 3px; }
+  .anillo-text .t1 { font-size: 14px; color: #64748b; font-weight: 600; }
+  .anillo-text .t2 { font-size: 22px; font-weight: 800; margin-top: 2px; }
+  .anillo-text .t3 { font-size: 13px; color: #475569; margin-top: 6px; }
+
+  .big { text-align: center; display: flex; flex-direction: column; justify-content: center; }
+  .big .num { font-size: 52px; font-weight: 800; line-height: 1; }
+  .big .lbl { font-size: 13px; color: #64748b; margin-top: 8px; font-weight: 600; }
+  .badge { display: inline-block; margin: 10px auto 0; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+
+  .seccion-titulo { font-size: 15px; font-weight: 800; color: #334155; text-transform: uppercase; letter-spacing: .06em; margin: 8px 4px 14px; }
+  .fases { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .fases { grid-template-columns: 1fr; } }
+  .fase { background: #fff; border-radius: 16px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(15,23,42,.08); }
+  .fase-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .fase-titulo { font-size: 16px; font-weight: 700; }
+  .fase-sub { font-size: 12.5px; color: #64748b; margin-top: 3px; }
+  .fase-pct { font-size: 26px; font-weight: 800; flex: none; }
+  .barra { height: 12px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin: 14px 0 10px; }
+  .barra-fill { height: 100%; border-radius: 999px; }
+  .fase-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .estado { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+  .conteo { font-size: 12.5px; color: #64748b; }
+
+  footer { text-align: center; color: #94a3b8; font-size: 12px; margin-top: 30px; line-height: 1.6; }
+  .leyenda { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+  .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Tablero de Avance para Gerencia</div>
+    <h1>Migración de Infraestructura HostDime</h1>
+    <div class="cliente">COUNT GROUP SAS</div>
+  </header>
+
+  <div class="kpis">
+    <div class="card anillo-card">
+      <div class="anillo"><div class="anillo-inner">
+        <div class="num">50%</div><div class="lbl">completado</div>
+      </div></div>
+      <div class="anillo-text">
+        <div class="t1">Avance general del proyecto</div>
+        <div class="t2" style="color:#2563eb">14 de 28 puntos</div>
+        <div class="t3">Puntos de control cumplidos sobre el total del plan.</div>
+      </div>
+    </div>
+
+    <div class="card big">
+      <div class="num" style="color:#f59e0b">21</div>
+      <div class="lbl">días para la fecha límite</div>
+      <span class="badge" style="background:#f59e0b1a;color:#f59e0b">Atención al plazo</span>
+      <div class="t3" style="font-size:12px;color:#94a3b8;margin-top:8px">Fecha límite: 30 de julio de 2026</div>
+    </div>
+
+    <div class="card big">
+      <div class="num" style="color:#16a34a">1<span style="font-size:26px;color:#94a3b8">/8</span></div>
+      <div class="lbl">fases 100% completadas</div>
+      <span class="badge" style="background:#2563eb1a;color:#2563eb">8 fases en total</span>
+    </div>
+  </div>
+
+  <div class="seccion-titulo">Avance por fase</div>
+  <div class="fases">
+    
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Preparación y accesos</div>
+              <div class="fase-sub">Dejar listas las herramientas y accesos para trabajar de forma segura</div>
+            </div>
+            <div class="fase-pct" style="color:#16a34a">100%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:100%;background:#16a34a"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#16a34a1a;color:#16a34a">Completado</span>
+            <span class="conteo">6 de 6 puntos</span>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Control central de usuarios y seguridad</div>
+              <div class="fase-sub">El sistema que decide quién entra y a qué tiene permiso</div>
+            </div>
+            <div class="fase-pct" style="color:#2563eb">67%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:67%;background:#2563eb"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#2563eb1a;color:#2563eb">En avance</span>
+            <span class="conteo">6 de 9 puntos</span>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Red y seguridad perimetral</div>
+              <div class="fase-sub">La protección de la empresa y la conexión remota segura</div>
+            </div>
+            <div class="fase-pct" style="color:#f59e0b">33%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:33%;background:#f59e0b"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#f59e0b1a;color:#f59e0b">En avance</span>
+            <span class="conteo">2 de 6 puntos</span>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Servidores principales</div>
+              <div class="fase-sub">Verificar que los servidores clave respondan correctamente</div>
+            </div>
+            <div class="fase-pct" style="color:#cbd5e1">0%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:0%;background:#cbd5e1"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#cbd5e11a;color:#cbd5e1">Sin iniciar</span>
+            <span class="conteo">0 de 1 puntos</span>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Servicios para los usuarios</div>
+              <div class="fase-sub">Archivos compartidos y el programa contable (Helisa)</div>
+            </div>
+            <div class="fase-pct" style="color:#cbd5e1">0%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:0%;background:#cbd5e1"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#cbd5e11a;color:#cbd5e1">Sin iniciar</span>
+            <span class="conteo">0 de 2 puntos</span>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Migración de las empresas del grupo</div>
+              <div class="fase-sub">Pasar cada empresa a la nueva infraestructura</div>
+            </div>
+            <div class="fase-pct" style="color:#cbd5e1">0%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:0%;background:#cbd5e1"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#cbd5e11a;color:#cbd5e1">Sin iniciar</span>
+            <span class="conteo">0 de 1 puntos</span>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Cliente PPC (entorno aislado)</div>
+              <div class="fase-sub">Montar el entorno separado y dedicado del cliente PPC</div>
+            </div>
+            <div class="fase-pct" style="color:#cbd5e1">0%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:0%;background:#cbd5e1"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#cbd5e11a;color:#cbd5e1">Sin iniciar</span>
+            <span class="conteo">0 de 1 puntos</span>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-top">
+            <div>
+              <div class="fase-titulo">Copias de seguridad y puesta en marcha</div>
+              <div class="fase-sub">Respaldos de información y salida final a producción</div>
+            </div>
+            <div class="fase-pct" style="color:#cbd5e1">0%</div>
+          </div>
+          <div class="barra"><div class="barra-fill" style="width:0%;background:#cbd5e1"></div></div>
+          <div class="fase-bottom">
+            <span class="estado" style="background:#cbd5e11a;color:#cbd5e1">Sin iniciar</span>
+            <span class="conteo">0 de 2 puntos</span>
+          </div>
+        </div>
+  </div>
+
+  <footer>
+    <div class="leyenda">
+      <span><i class="dot" style="background:#16a34a"></i>Completado</span>
+      <span><i class="dot" style="background:#2563eb"></i>Buen avance</span>
+      <span><i class="dot" style="background:#f59e0b"></i>Iniciado</span>
+      <span><i class="dot" style="background:#cbd5e1"></i>Sin iniciar</span>
+    </div>
+    <div style="margin-top:12px">Actualizado el 9 de julio de 2026 · Documento fuente: Documento Maestro de Continuidad<br>
+    CONFIDENCIAL — Uso interno · Información generada automáticamente a partir del avance registrado.</div>
+  </footer>
+</div>
+</body>
+</html>
