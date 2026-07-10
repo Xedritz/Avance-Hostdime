@@ -48,6 +48,10 @@ FRIENDLY = {
         "Servidores principales",
         "Verificar que los servidores clave respondan correctamente",
     ),
+    "VMs Core (preparación)": (
+        "Servidores principales",
+        "Dejar listos los servidores clave (administración, monitoreo, archivos)",
+    ),
     "Servicios compartidos": (
         "Servicios para los usuarios",
         "Archivos compartidos y el programa contable (Helisa)",
