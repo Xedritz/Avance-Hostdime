@@ -52,6 +52,10 @@ FRIENDLY = {
         "Servidores principales",
         "Dejar listos los servidores clave (administración, monitoreo, archivos)",
     ),
+    "Monitoreo (VM-MON)": (
+        "Monitoreo del sistema",
+        "Vigilancia automática que avisa si algún servidor o servicio falla",
+    ),
     "Servicios compartidos": (
         "Servicios para los usuarios",
         "Archivos compartidos y el programa contable (Helisa)",
