@@ -56,6 +56,10 @@ FRIENDLY = {
         "Monitoreo del sistema",
         "Vigilancia automática que avisa si algún servidor o servicio falla",
     ),
+    "Nextcloud (VM-NEXTCLOUD)": (
+        "Archivos en la nube (Nextcloud)",
+        "Plataforma de archivos compartidos con acceso por el directorio de la empresa",
+    ),
     "Servicios compartidos": (
         "Servicios para los usuarios",
         "Archivos compartidos y el programa contable (Helisa)",
